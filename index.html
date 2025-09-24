@@ -8,46 +8,44 @@
   <meta name="theme-color" content="#4285F4">
 </head>
 <body>
+  <h1>BD Transport</h1>
+  <p>Install this app for quick access:</p>
+  <button id="install">Install App</button>
+  <br><br>
+  <button id="go">Go to Transport</button>
+
   <script>
+    let deferredPrompt;
+
     // Register service worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker.register('/sw.js')
         .then(reg => console.log('SW registered', reg))
         .catch(err => console.error('SW failed', err));
     }
 
-    // Redirect immediately to main site
-    window.location.href = "https://transport.bdbildeler.no/";
-  </script>
-
-  <!-- Install prompt script -->
-  <script>
-    let deferredPrompt;
-
+    // Listen for install prompt event
     window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent automatic prompt
       e.preventDefault();
       deferredPrompt = e;
+      document.getElementById('install').style.display = 'inline-block';
+    });
 
-      // Show install button
-      const btn = document.createElement('button');
-      btn.textContent = "Install Transport App";
-      btn.style.position = "fixed";
-      btn.style.bottom = "20px";
-      btn.style.left = "20px";
-      btn.style.padding = "10px 20px";
-      btn.style.zIndex = 1000;
-      document.body.appendChild(btn);
+    // Install button click
+    document.getElementById('install').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response: ${outcome}`);
+        deferredPrompt = null;
+      }
+    });
 
-      btn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const choice = await deferredPrompt.userChoice;
-          console.log('User choice', choice.outcome);
-          deferredPrompt = null;
-          btn.remove();
-        }
-      });
+    // Go button → redirect user
+    document.getElementById('go').addEventListener('click', () => {
+      window.location.href = "https://transport.bdbildeler.no/";
+      // or close the tab if you prefer:
+      // window.close();
     });
   </script>
 </body>
