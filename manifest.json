@@ -1,12 +1,12 @@
 {
   "name": "BD Transport",
-  "short_name": "BD transport",
-  "start_url": "https://transport.bdbildeler.no/",
+  "short_name": "BD Transport",
+  "start_url": "./",  
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4285F4",
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
